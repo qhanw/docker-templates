@@ -1,0 +1,37 @@
+server {
+    listen 80;
+    server_name localhost;
+    # gzip config
+    gzip on;
+    gzip_min_length 1k;
+    gzip_comp_level 9;
+    gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    gzip_vary on;
+    gzip_disable "MSIE [1-6]\.";
+
+    root /usr/share/nginx/html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /oagw {
+        alias /usr/share/nginx/oagw;
+        # try_files $uri $uri/ /index.html;
+        try_files $uri $uri/index.html index.html =404;
+    }
+    
+    location /api {
+        proxy_pass https://api.dev.xjjj.co;
+        # proxy_set_header   X-Forwarded-Proto $scheme;
+        # proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header    Host               $proxy_host;
+        add_header          x-real-url         $scheme://$proxy_host$request_uri;
+        # add_header          x-real-uri         $request_uri;
+        # add_header          x-real-host        $proxy_host;
+    }
+
+    location /ping {
+        return 200 'pong';
+    }
+}

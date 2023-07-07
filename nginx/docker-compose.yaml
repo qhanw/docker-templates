@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:1.25.1
+    container_name: nginx
+    restart: always
+    volumes:
+     - ./templates:/etc/nginx/templates
+     - /Users/qhan/Documents/workplace/sso-web/dist:/usr/share/nginx/html
+     - /Users/qhan/Documents/workplace/oagw-web/dist:/usr/share/nginx/oagw
+    ports:
+     - "8080:80"
+     - "8443:443"
+    environment:
+     - TZ=Asia/Shanghai
