@@ -4,6 +4,9 @@
 /mongo/data/*
 /mongo/qtn.csv
 
+/postgres/data/*
+
 
 # Nginx Demo
 /nginx_meet
+
